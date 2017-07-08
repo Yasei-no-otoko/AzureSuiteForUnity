@@ -1,8 +1,5 @@
 ﻿using AzureSuiteForUnity.CognitiveServices;
 using AzureSuiteForUnity.CognitiveServices.BingSpeech;
-using AzureSuiteForUnity.CognitiveServices.ComputerVision;
-using AzureSuiteForUnity.CognitiveServices.Emotion;
-using AzureSuiteForUnity.CognitiveServices.Face;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -19,18 +16,7 @@ namespace AzureSuiteForUnity.CognitiveServices
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IComputerVisionAPI>()
-                                    .ImplementedBy<ComputerVisionAPI>()
-                                    //.Interceptors<LoggingInterceptor>()
-                                    .LifeStyle.Transient,
-                               Component.For<IEmotionAPI>()
-                                    .ImplementedBy<EmotionAPI>()
-                                    //.Interceptors<LoggingInterceptor>()
-                                    .LifeStyle.Transient,
-                               Component.For<IFaceAPI>()
-                                    .ImplementedBy<FaceAPI>()
-                                    //.Interceptors<LoggingInterceptor>()
-                                    .LifeStyle.Transient,
+            container.Register(
                                Component.For<MonoBehaviour>()
                                     .Instance(CognitiveServicesServiceFactory.Instance),
                                Component.For<IBingSpeechAPI>()
@@ -61,27 +47,6 @@ namespace AzureSuiteForUnity.CognitiveServices
             var api = container.Resolve<IBingSpeechAPI>();
             api.APIKey = APIKey;
 
-            return api;
-        }
-
-        public IComputerVisionAPI GetComputerVisionAPI(string APIKey)
-        {
-            var api = container.Resolve<IComputerVisionAPI>();
-            api.APIKey = APIKey;
-            return api;
-        }
-
-        public IFaceAPI GetFaceAPI(string APIKey)
-        {
-            var api = container.Resolve<IFaceAPI>();
-            api.APIKey = APIKey;
-            return api;
-        }
-
-        public IEmotionAPI GetEmotionAPI(string APIKey)
-        {
-            var api = container.Resolve<IEmotionAPI>();
-            api.APIKey = APIKey;
             return api;
         }
     }

@@ -12,21 +12,32 @@ namespace AzureSuiteForUnity.CognitiveServices.BingSpeech
     {
         private IBingSpeechAPI _bingSpeechAPI { get; set; }
         public AudioClip audioGenerated;
-        public string APIKey; // 94c91aeef0af42ef944e988f520514fd
+        public string APIKey;
 
         public void Start()
         {
             _bingSpeechAPI = CognitiveServicesServiceFactory.Instance.GetBingSpeechAPI(APIKey);
-            //new BingSpeechAPI("94c91aeef0af42ef944e988f520514fd", this);
+            //new BingSpeechAPI("apikey", this);
 
-            _bingSpeechAPI.TextToSpeechAsync("Hello There");
+            //_bingSpeechAPI.TextToSpeechAsync("Hello There");
             _bingSpeechAPI.OnRecognise += _bingSpeechAPI_OnRecognise;
-            _bingSpeechAPI.RecogniseAsync(_audioToRecognise);
+            //_bingSpeechAPI.RecogniseAsync(_audioToRecognise);
+            //StartCoroutine(RecordSeconds(1));
+        }
+
+        public void OnEnable()
+        {
+            StartCoroutine(RecordSeconds(2));
         }
 
         private void _bingSpeechAPI_OnRecognise(IBingSpeechAPI sender, RecogniseEventArgs args)
         {
             Debug.Log(args.JsonResponse);
+            BingSpeechResponse response = BingSpeechResponse.CreateFromJSON(args.JsonResponse);
+            if (response.header.name != null)
+            {
+                BroadcastMessage("OnResponse", response);
+            }
         }
 
         private void _bingSpeechAPI_OnTextToSpeech(IBingSpeechAPI sender, TextToSpeechEventArgs args)
@@ -42,7 +53,7 @@ namespace AzureSuiteForUnity.CognitiveServices.BingSpeech
         private int _SECONDS = 3;
         private AudioClip _recordingClip;
 
-        IEnumerator RecordSeconds(int seconds)
+	    public IEnumerator RecordSeconds(int seconds)
         {
             Debug.Log("Recording... ");
             _recordingClip = Microphone.Start(null, false, seconds, _RATE);

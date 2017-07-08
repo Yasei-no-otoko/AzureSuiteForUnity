@@ -22,7 +22,7 @@ namespace AzureSuiteForUnity.CognitiveServices.BingSpeech
 
             public const string PARAMETER_APP_ID = "D4D52672-91D7-4C74-8AD8-42B1D98141A5";
 
-            public const string QUERY_STRING_SPEECH_API_FORMAT = "?Version=3.0&requestid={0}&appID={1}&format=json&locale=en-US&device.os=Unity&scenarios=ulm&instanceid={2}";
+            public const string QUERY_STRING_SPEECH_API_FORMAT = "?Version=3.0&requestid={0}&appID={1}&format=json&locale=ja-JP&device.os=Unity&scenarios=ulm&instanceid={2}";
 
             public const string URI_SPEECH_RECOGNISE = "https://speech.platform.bing.com/recognize";
             public const string URI_COGNITIVE_TOKEN = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
